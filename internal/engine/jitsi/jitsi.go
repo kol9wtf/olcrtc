@@ -124,7 +124,7 @@ func New(_ context.Context, cfg engine.Config) (engine.Session, error) {
 		room:                room,
 		name:                name,
 		resolver:            cfg.Resolver,
-		httpClient:          protect.NewHTTPClient(cfg.Resolver),
+		httpClient:          protect.NewHTTP1Client(cfg.Resolver), // HTTP/1.1: WAF-friendly, see protect.NewHTTP1Client
 		onData:              cfg.OnData,
 		onPeerData:          cfg.OnPeerData,
 		requireTargetedPeer: cfg.RequireTargetedPeer,

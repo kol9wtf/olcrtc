@@ -133,6 +133,23 @@ func NewHTTPClient(resolvers ...*net.Resolver) *http.Client {
 	}
 }
 
+// NewHTTP1Client is NewHTTPClient restricted to HTTP/1.1.
+// Some Jitsi deployments sit behind a WAF that fingerprints Go's HTTP/2
+// client and answers 403 to config.js and /http-bind (meet.egovm.ru, 2026-11),
+// while plain Go HTTP/1.1 is accepted. Jitsi needs nothing from HTTP/2:
+// its WebSocket upgrades are HTTP/1.1 anyway.
+func NewHTTP1Client(resolvers ...*net.Resolver) *http.Client {
+	base := newHTTPTransport(resolvers...)
+	base.ForceAttemptHTTP2 = false
+	p := new(http.Protocols)
+	p.SetHTTP1(true)
+	base.Protocols = p
+	return &http.Client{
+		Transport: &retryTransport{base: base},
+		Timeout:   defaultHTTPClientTimeout,
+	}
+}
+
 // retryTransport retries requests on transient DNS/dial errors.
 type retryTransport struct {
 	base http.RoundTripper
