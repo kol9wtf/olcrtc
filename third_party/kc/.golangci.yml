@@ -1,0 +1,95 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - bodyclose
+    - copyloopvar
+    - cyclop
+    - durationcheck
+    - errname
+    - exhaustive
+    - funlen
+    - gochecknoinits
+    - goconst
+    - godot
+    - gomoddirectives
+    - goprintffuncname
+    - lll
+    - makezero
+    - mirror
+    - misspell
+    - nakedret
+    - nilerr
+    - nilnil
+    - nolintlint
+    - prealloc
+    - predeclared
+    - revive
+    - unconvert
+    - usestdlibvars
+    - wastedassign
+    - whitespace
+    - wrapcheck
+  settings:
+    cyclop:
+      max-complexity: 15
+    funlen:
+      lines: 100
+      statements: 60
+    gocyclo:
+      min-complexity: 15
+    lll:
+      line-length: 120
+    nestif:
+      min-complexity: 6
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - performance
+        - style
+    revive:
+      rules:
+        - name: blank-imports
+        - name: context-as-argument
+        - name: dot-imports
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: increment-decrement
+        - name: var-naming
+        - name: range
+        - name: receiver-naming
+        - name: indent-error-flow
+        - name: empty-block
+        - name: superfluous-else
+        - name: unreachable-code
+  exclusions:
+    rules:
+      - path: _test\.go
+        linters:
+          - cyclop
+          - funlen
+          - errcheck
+          - wrapcheck
+          - noctx
+      - path: (decode|encode|inter|predict)\.go
+        linters:
+          - cyclop
+      - path: predict\.go
+        linters:
+          - unused
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

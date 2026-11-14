@@ -1,0 +1,9 @@
+steps:
+  test:
+    image: golang:latest
+    commands:
+      - go test ./... -count=1 -race
+  lint:
+    image: golangci/golangci-lint:latest
+    commands:
+      - golangci-lint run --timeout 5m

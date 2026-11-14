@@ -99,3 +99,12 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 	rsc.io/qr v0.2.0 // indirect
 )
+
+// Single-author dependencies kept in-tree (third_party/) so the build does
+// not depend on their upstream repositories staying online.
+replace (
+	codeberg.org/rape4me/kc => ./third_party/kc
+	github.com/owenewans/owenlivekit/v2 => ./third_party/owenlivekit
+	github.com/zarazaex69/gr => ./third_party/gr
+	github.com/zarazaex69/j => ./third_party/j
+)
